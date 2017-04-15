@@ -3,3 +3,6 @@
 
 # Executable files
 *.out
+
+# Weird file included on Mac
+.DS_Store

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include<signal.h>
 #include <unistd.h>
 #include <sys/types.h> 
 #include <sys/socket.h>
@@ -10,7 +11,7 @@
 
 int main(int argc, char *argv[])
 {
-     int sockfd, newsockfd, portno, n;
+     int sockfd, newsockfd, portno, n, pid;
      socklen_t clilen;
      char buffer[256];
      struct sockaddr_in serv_addr, cli_addr;
@@ -39,21 +40,29 @@ int main(int argc, char *argv[])
 
      listen(sockfd, 5);
      clilen = sizeof(cli_addr);
-     newsockfd = accept(sockfd, (struct sockaddr*)&cli_addr, &clilen);
 
-     if (newsockfd < 0) {
-          error("ERROR on accept");
+     while (1) {
+        newsockfd = accept(sockfd, (struct sockaddr*)&cli_addr, &clilen);
+
+        if (newsockfd < 0) {
+            error("ERROR on accept");
+        }
+
+        pid = fork();
+
+        if (pid < 0) {
+            error("ERROR on fork");
+        }
+
+        if (pid == 0) {
+            close(sockfd);
+            serverReadWrite(newsockfd);
+            exit(0);
+        } else {
+            close(newsockfd);
+            signal(SIGCHLD, SIG_IGN);
+        }
      }
-
-     if (readSocket(buffer, newsockfd) < 0) {
-        error("ERROR reading from socket");
-     }
-
-     if (writeSocket(newsockfd) < 0) {
-        error("ERROR writing to socket");
-     }
-
-     close(newsockfd);
      close(sockfd);
      return 0; 
 }

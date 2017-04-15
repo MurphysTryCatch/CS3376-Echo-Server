@@ -13,12 +13,15 @@ void error(const char *msg) {
     perror(msg);
     exit(1);
 }
-
-int readSocket(char buffer[], int newsockfd) {
+void serverReadWrite(int sock) {
+	char buffer[256];
 	bzero(buffer, 256);
-    return read(newsockfd, buffer, 255);
-}
 
-int writeSocket(int newsockfd) {
-	return write(newsockfd, "I got your message", 18);
+	if (read(sock, buffer, 255) < 0) {
+        error("ERROR reading from socket");
+    }
+
+    if (write(sock, "I got your message", 18) < 0) {
+        error("ERROR writing to socket");
+    }
 }

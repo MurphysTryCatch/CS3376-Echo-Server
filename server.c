@@ -7,13 +7,8 @@
 #include <sys/types.h> 
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include "server_functions.h"
 
-void error(const char *msg)
-{
-    perror(msg);
-    exit(1);
-}
+#include "server_functions.h"
 
 int main(int argc, char *argv[])
 {
@@ -54,19 +49,11 @@ int main(int argc, char *argv[])
      if (newsockfd < 0) {
           error("ERROR on accept");
      }
-     /*
-     bzero(buffer,256);
-     n = read(newsockfd,buffer,255);
-     */
+
      if (readSocket(buffer, newsockfd) < 0) {
         error("ERROR reading from socket");
      }
-     /*
-     printf("Here is the message: %s\n",buffer);
-     */
-     /*
-     n = write(newsockfd,"I got your message",18);
-    */
+
      if (writeSocket(newsockfd) < 0) {
         error("ERROR writing to socket");
      }

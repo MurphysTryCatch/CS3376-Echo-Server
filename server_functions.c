@@ -6,15 +6,19 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h> 
+
 #include "server_functions.h"
 
+void error(const char *msg) {
+    perror(msg);
+    exit(1);
+}
+
 int readSocket(char buffer[], int newsockfd) {
-	bzero(buffer,256);
-    int n = read(newsockfd,buffer,255);
-    return n;
+	bzero(buffer, 256);
+    return read(newsockfd, buffer, 255);
 }
 
 int writeSocket(int newsockfd) {
-	int n = write(newsockfd,"I got your message",18);
-	return n;
+	return write(newsockfd, "I got your message", 18);
 }

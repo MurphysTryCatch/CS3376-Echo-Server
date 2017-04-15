@@ -10,11 +10,10 @@
 
 int main(int argc, char *argv[])
 {
-     int sockfd, newsockfd, portno;
+     int sockfd, newsockfd, portno, n;
      socklen_t clilen;
      char buffer[256];
      struct sockaddr_in serv_addr, cli_addr;
-     int n;
 
      if (argc < 2) {
          fprintf(stderr,"ERROR, no port provided\n");

@@ -9,46 +9,58 @@
 #include <unistd.h>
 #include <string.h>
 
-void error(const char *);
+#include "client_functions.h"
+
 int main(int argc, char *argv[])
 {
-   int sock, n;
+   int sockfd, n;
    unsigned int length;
    struct sockaddr_in server, from;
    struct hostent *hp;
    char buffer[256];
 
-   if (argc != 3) { printf("Usage: server port\n");
-                    exit(1);
+   // check for all arguments
+   if (argc != 3) {
+       fprintf(stderr,"usage %s hostname port\n", argv[0]);
+        exit(1);
    }
-   sock= socket(AF_INET, SOCK_DGRAM, 0);
-   if (sock < 0) error("socket");
 
+   // open the socket
+   sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+   if (sockfd < 0) error("ERROR opening UDP socket");
+
+   // set the server address
    server.sin_family = AF_INET;
    hp = gethostbyname(argv[1]);
    if (hp==0) error("Unknown host");
-
    bcopy((char *)hp->h_addr,
         (char *)&server.sin_addr,
          hp->h_length);
    server.sin_port = htons(atoi(argv[2]));
+
    length=sizeof(struct sockaddr_in);
+
+   // prompt user for message to send
    printf("Please enter the message: ");
    bzero(buffer,256);
    fgets(buffer,255,stdin);
-   n=sendto(sock,buffer,
+
+   // send the message to the server
+   n=sendto(sockfd,buffer,
             strlen(buffer),0,(const struct sockaddr *)&server,length);
    if (n < 0) error("Sendto");
-   n = recvfrom(sock,buffer,256,0,(struct sockaddr *)&from, &length);
-   if (n < 0) error("recvfrom");
-   write(1,"Got an ack: ",12);
-   write(1,buffer,n);
-   close(sock);
-   return 0;
-}
 
-void error(const char *msg)
-{
-    perror(msg);
-    exit(0);
+   // display the the message sent to the server
+   printf("\nHere is your message: %s", buffer);
+
+   // get response from server
+   n = recvfrom(sockfd,buffer,256,0,(struct sockaddr *)&from, &length);
+   if (n < 0) error("recvfrom");
+
+   // display the response to the user
+   write(1,buffer,n);
+
+   // close socket and exit program
+   close(sockfd);
+   return 0;
 }

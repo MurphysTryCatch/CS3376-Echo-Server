@@ -21,7 +21,10 @@ void serverReadWrite(int sock) {
         error("ERROR reading from socket");
     }
 
+    //print the message to the server console
+    printf("TCP message received: %s", buffer); 
+
     if (write(sock, "I got your message", 18) < 0) {
         error("ERROR writing to socket");
     }
-}
+}}

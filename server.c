@@ -99,7 +99,6 @@ int main(int argc, char *argv[])
        // handle the udp connection
        if (FD_ISSET(udp_sockfd, &sock_set)) {
 
-
            if (n < 0)
                error("ERROR on UDP recvfrom");
 
@@ -111,16 +110,7 @@ int main(int argc, char *argv[])
 
            if (pid == 0) {
                close(tcp_sockfd);
-
-               n = recvfrom(udp_sockfd , buffer, 256, 0, (struct sockaddr *)&cli_addr, &clilen);
-
-               write(1,"UDP message received: ",21);
-               write(1, buffer , n);
-
-               n = sendto( udp_sockfd ,"I got your message\n",19,
-                          0,(struct sockaddr *)&cli_addr, clilen);
-               if (n  < 0) error("sendto");
-
+               serverReadWriteUdp(udp_sockfd);
                exit(0);
            } else {
                signal(SIGCHLD, SIG_IGN);

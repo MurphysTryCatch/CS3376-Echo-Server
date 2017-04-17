@@ -1,4 +1,16 @@
-/* UDP client in the internet domain */
+//*************************************************
+//
+//	Author: 		Daniel Reiling
+//	File: 			udpClient.c
+//	professor: 		Dr. Belkoura
+//	Group: 			Group #7
+//
+//	File contents: UDP client to send a datagram to
+//					a server and await the response
+//
+//	Original Program:	http://www.linuxhowtos.org/C_C++/socket.htm
+//
+//*************************************************
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>

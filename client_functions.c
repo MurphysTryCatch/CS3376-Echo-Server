@@ -1,3 +1,8 @@
+// Client_functions.c
+// Written by Linda Murphy
+// 
+// Common functions called by client.c
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

@@ -1,3 +1,4 @@
+// Written by Matthew Dumler
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

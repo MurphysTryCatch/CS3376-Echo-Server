@@ -1,7 +1,7 @@
 //*************************************************
 //
 //	Author: 		Daniel Reiling
-//	File: 			udpClient.c
+//	File: 			udp_client.c
 //	professor: 		Dr. Belkoura
 //	Group: 			Group #7
 //

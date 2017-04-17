@@ -1,3 +1,4 @@
+// Written by Matthew Dumler and Linda Murphy
 #ifndef SERVER_FUNCTIONS_H
 #define SERVER_FUNCTIONS_H
 

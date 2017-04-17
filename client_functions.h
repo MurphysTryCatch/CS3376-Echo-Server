@@ -1,3 +1,4 @@
+// Written by Matthew Dumler and Linda Murphy
 #ifndef CLIENT_FUNCTIONS_H
 #define CLIENT_FUNCTIONS_H
 

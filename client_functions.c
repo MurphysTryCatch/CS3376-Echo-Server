@@ -1,5 +1,5 @@
 // Client_functions.c
-// Written by Linda Murphy
+// Written by Linda Murphy and Matthew Dumler
 // 
 // Common functions called by client.c
 

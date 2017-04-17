@@ -1,4 +1,4 @@
-// Written by Matthew Dumler
+// Written by Matthew Dumler and Keaton Khonsari
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

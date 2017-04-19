@@ -1,13 +1,13 @@
-echo_server: client server udp_client
+echo_server: echo_s echo_c echo_c_udp
 
-client: client.o client_functions.o
-	g++ -o client.out client.c client_functions.c
+echo_c: echo_c.o client_functions.o
+	g++ -o echo_c.out echo_c.c client_functions.c
 
-udp_client: udp_client.o client_functions.o
-	g++ -o udp_client.out udp_client.c client_functions.c
+echo_c_udp: echo_c_udp.o client_functions.o
+	g++ -o echo_c_udp.out echo_c_udp.c client_functions.c
 
-server: server.o server_functions.o
-	g++ -o server.out server.c server_functions.c
+echo_s: echo_s.o server_functions.o
+	g++ -o echo_s.out echo_s.c server_functions.c
 
 clean:
 	rm *.o *.out

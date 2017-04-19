@@ -18,4 +18,4 @@ client_functions.h	Client functions header file
 server_functions.c	Server functions code
 server_functions.h	Server functions header file
 Makefile		The makefile
-udpClient.c		UDP Client code
+udp_Client.c		UDP Client code

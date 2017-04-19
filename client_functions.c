@@ -1,6 +1,6 @@
 // Client_functions.c
 // Written by Linda Murphy and Matthew Dumler
-// 
+//
 // Common functions called by client.c
 
 #include <stdio.h>
@@ -24,7 +24,7 @@ int sendMessage(char buffer[], int sockfd) {
     bzero(buffer, 256);
     fgets(buffer, 255, stdin);
     int n = write(sockfd, buffer, strlen(buffer));
-    printf("Here is the message: %s\n", buffer);
+    printf("\nHere is the message: %s", buffer);
     return n;
 }
 

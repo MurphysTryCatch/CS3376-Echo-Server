@@ -1,4 +1,4 @@
-echo_server: echo_s log_s echo_c
+echo_server: echo_s echo_c log_s
 
 echo_c: echo_c.o client_functions.o
 	g++ -o echo_c.out echo_c.c client_functions.c

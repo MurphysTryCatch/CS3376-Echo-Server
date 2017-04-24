@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
 	    if (n < 0) error("Sendto");
 
 	    // display the the message sent to the server
-	    printf("\nHere is your message: %s", buffer);
+	    printf("\nHere is your message: %s\n", buffer);
 
 	    // get response from server
 	    n = recvfrom(sockfd,buffer,256,0,(struct sockaddr *)&from, &length);

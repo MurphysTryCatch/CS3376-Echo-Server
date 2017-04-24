@@ -60,7 +60,7 @@ void serverReadWrite(int sock) {
     }
 
     //print the message to the server console
-    printf("TCP message received: %s", buffer);
+    printf("TCP message received: %s\n", buffer);
 
 	//send the message to the log server
 	if (sendToLog(buffer) < 0) error("ERROR sending to log server");
@@ -81,7 +81,7 @@ void serverReadWriteUdp(int sock) {
         error("ERROR in UDP recvfrom");
     }
 
-    printf("UDP message received: %s", buffer);
+    printf("UDP message received: %s\n", buffer);
 
 	//send the message to the log server
 	if (sendToLog(buffer) < 0) error("ERROR sending to log server");

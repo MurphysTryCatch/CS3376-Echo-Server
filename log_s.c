@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 	//set the length of the address structure
    fromlen = sizeof(struct sockaddr_in);
 
-   
+
    echop = fopen("echo.log", "w");
    //handle incoming connections indefinitaly
    while (1) {
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 	   if (pid == 0) {
 
 		   //print out the buffer to the console
-		   printf("UDP message received to log: %s", buf);
+		   printf("UDP message received to log: %s\n", buf);
 
 		   /* At this point the message recived is in the "buf" buffer
 		   		with the length of the message in "n" for anyone that is

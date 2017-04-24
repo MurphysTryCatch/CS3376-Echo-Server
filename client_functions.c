@@ -31,7 +31,7 @@ int sendMessage(char buffer[], int sockfd) {
 		error("ERROR removing the newline char from input");
 
     int n = write(sockfd, buffer, strlen(buffer));
-    printf("\nHere is the message: %s", buffer);
+    printf("\nHere is the message: %s\n", buffer);
     return n;
 }
 

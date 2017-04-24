@@ -23,6 +23,13 @@ int sendMessage(char buffer[], int sockfd) {
 	printf("Please enter the message: ");
     bzero(buffer, 256);
     fgets(buffer, 255, stdin);
+
+	char *pos;
+	if ((pos=strchr(buffer, '\n')) != NULL)
+		*pos = '\0';
+	else
+		error("ERROR removing the newline char from input");
+
     int n = write(sockfd, buffer, strlen(buffer));
     printf("\nHere is the message: %s", buffer);
     return n;

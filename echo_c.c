@@ -104,6 +104,12 @@ int main(int argc, char *argv[])
 	    bzero(buffer,256);
 	    fgets(buffer,255,stdin);
 
+		char *pos;
+		if ((pos=strchr(buffer, '\n')) != NULL)
+		    *pos = '\0';
+		else
+    		error("ERROR removing the newline char from input");
+
 	    // send the message to the server
 	    n=sendto(sockfd,buffer,
 	             strlen(buffer),0,(const struct sockaddr *)&server,length);
@@ -125,6 +131,6 @@ int main(int argc, char *argv[])
 
 		error("ERROR could not determine socket type");
 	}
-	
+
     return 0;
 }

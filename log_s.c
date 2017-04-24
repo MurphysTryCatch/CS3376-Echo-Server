@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
    struct sockaddr_in server;
    struct sockaddr_in from;
    char buf[1024];
+   FILE *echop;
 
 	//open and error check the socket
    sock=socket(AF_INET, SOCK_DGRAM, 0);
@@ -51,6 +52,8 @@ int main(int argc, char *argv[])
 	//set the length of the address structure
    fromlen = sizeof(struct sockaddr_in);
 
+   
+   echop = fopen("echo.log", "w");
    //handle incoming connections indefinitaly
    while (1) {
 
@@ -77,8 +80,9 @@ int main(int argc, char *argv[])
 		   /* At this point the message recived is in the "buf" buffer
 		   		with the length of the message in "n" for anyone that is
 		   		handling writing that message to the echo.log file */
-
-
+			char line[n+1];
+			strncpy(line, buf, n);
+			fprintf(echop, "%s", line);
 
 
 
@@ -95,5 +99,6 @@ int main(int argc, char *argv[])
 	   }
 
    }
+   fclose(echop);
    return 0;
  }

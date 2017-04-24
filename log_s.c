@@ -22,6 +22,8 @@
 #include <string.h>
 #include <netdb.h>
 #include <stdio.h>
+#include <time.h>
+#include <arpa/inet.h>
 
 #include "client_functions.h"
 
@@ -33,6 +35,8 @@ int main(int argc, char *argv[])
    struct sockaddr_in from;
    char buf[1024];
    FILE *echop;
+   time_t t = time(NULL);
+   struct tm tm = *localtime(&t);
 
 	//open and error check the socket
    sock=socket(AF_INET, SOCK_DGRAM, 0);
@@ -80,10 +84,10 @@ int main(int argc, char *argv[])
 		   /* At this point the message recived is in the "buf" buffer
 		   		with the length of the message in "n" for anyone that is
 		   		handling writing that message to the echo.log file */
-			char line[n+1];
+			char line[n];
 			strncpy(line, buf, n);
-			fprintf(echop, "%s", line);
-
+			fprintf(echop, "%d-%d-%d %d:%d:%d ", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+			fprintf(echop, "%s was received from %s\n", line, inet_ntoa(from.sin_addr));
 
 
 		   //send back an ack
@@ -92,6 +96,7 @@ int main(int argc, char *argv[])
 	       if (n  < 0) error("sendto");
 
 		   //close the socket and exit the child process
+		   fclose(echop);
 		   close(sock);
 		   exit(0);
 	   } else {

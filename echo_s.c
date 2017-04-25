@@ -9,6 +9,7 @@
 #include <sys/socket.h>
 #include <sys/select.h>
 #include <netinet/in.h>
+#include <signal.h>
 
 #include "server_functions.h"
 #define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
@@ -90,7 +91,7 @@ int main(int argc, char *argv[])
      serv_addr.sin_port = htons(portno);
      if (bind(udp_sockfd, (struct sockaddr *)&serv_addr , sizeof(serv_addr)) < 0)
          error("ERROR on UDP binding");
-	     
+
      if(portno2!=-1){
 	     serv_addr.sin_port = htons(portno2);
 	     if (bind(udp_sockfd2, (struct sockaddr *)&serv_addr , sizeof(serv_addr)) < 0)
@@ -222,7 +223,7 @@ int main(int argc, char *argv[])
 			close(udp_sockfd3);
 			close(tcp_sockfd3);
 			}
-		       
+
 		       serverReadWrite(newsockfd);
 		       exit(0);
 		   } else {

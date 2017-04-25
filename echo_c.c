@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
 {
 	//internal flag for connection type
 	int isTcp = 1;
+	int i = 0;
 
 	//check for sufficient number of arguments
     if (argc < 3) {
@@ -21,7 +22,7 @@ int main(int argc, char *argv[])
     }
 
 	//check all the arguments for the udp flag
-	for (int i = 3; i < argc; i++) {
+	for (i = 3; i < argc; i++) {
 		int comp = strcmp(argv[i], "-u");
 		if (comp == 0) isTcp = 0;
 	}

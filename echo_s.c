@@ -1,4 +1,4 @@
-// Written by Matthew Dumler, Samuel Britton, and Keaton Khonsari
+// Written by Matthew Dumler, Samuel Britton, Keaton Khonsari
 
 #include <stdio.h>
 #include <stdlib.h>

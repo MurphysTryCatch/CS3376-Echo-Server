@@ -13,29 +13,60 @@
 
 #include "server_functions.h"
 #define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
-
+typedef int bool;
+#define true 1
+#define false 0
 int main(int argc, char *argv[])
 {
-      int tcp_sockfd, tcp_sockfd2, tcp_sockfd3, udp_sockfd,udp_sockfd2, udp_sockfd3, newsockfd, portno, max_fds, pid, n;
+      int tcp_sockfd, tcp_sockfd2, tcp_sockfd3, udp_sockfd,udp_sockfd2, udp_sockfd3, newsockfd, max_fds, pid, n;
+     int portno  = -1;
      int portno2 = -1;
      int portno3 = -1;
      socklen_t clilen;
       char buffer[256];
       struct sockaddr_in serv_addr, cli_addr;
       fd_set sock_set;
-
+  
      if (argc < 2) {
          fprintf(stderr,"ERROR, no port provided\n");
          exit(1);
      }
+     bool ipFlag = false;
+     bool portFlag = false;
+     int i = 1;
+     for(i;i<argc;i++){
+	if(0==strcmp(argv[i],"-logip"))
+		ipFlag = true;
+	else if(0==strcmp(argv[i],"-logport"))
+		portFlag= true;
+	else if(ipFlag){
+		//TODO save this
+		ipFlag = false;
+	}
+	else if(portFlag){
+		//TODO Save this
+		ipFlag = false;
+	}
+	else if(portno==-1)
+	{
+		portno=atoi(argv[i]);
+	}
+	else if(portno2==-1){
+		portno2=atoi(argv[i]);
+	}
+	else if(portno3==-1){
+		portno3=atoi(argv[i]);	
+	}
+	else{//This should neber be reached,  more paramaters are passed than expected
+		error("error reading paramaters");
+	}
+     }
      tcp_sockfd= socket(AF_INET, SOCK_STREAM, 0);
-     //collects additional ports if need be
-     if(argc>2){
-     	portno2=atoi(argv[2]);
+     //socket additional ports if need be
+     if(portno2!=-1){
        tcp_sockfd2 = socket(AF_INET, SOCK_STREAM, 0);
      }
-     if(argc>3){
-        portno3=atoi(argv[3]);
+     if(portno3!=-1){
      	tcp_sockfd3= socket(AF_INET, SOCK_STREAM, 0);
      }
      if (tcp_sockfd < 0) {

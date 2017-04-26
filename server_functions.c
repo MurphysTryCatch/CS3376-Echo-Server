@@ -19,24 +19,32 @@ void error(const char *msg) {
     exit(1);
 }
 
-int sendToLog (const char *buf) {
+int sendToLog (const char *buf,const char *ip) {
 
 	int sockfd, n;
 	unsigned int length;
 	struct sockaddr_in server, from;
 	struct hostent *hp;
-
+	server.sin_family = AF_INET;
 	// open the socket
 	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 	if (sockfd < 0) error("ERROR opening UDP socket");
-
+	
+	if(0==strcmp(ip,"default"))
+	{
 	// set the server address
-	server.sin_family = AF_INET;
 	hp = gethostbyname("localhost");
 	if (hp==0) error("Unknown host");
 	bcopy((char *)hp->h_addr,
 		 (char *)&server.sin_addr,
 		  hp->h_length);
+	
+	}
+	else//an ip address is sent
+	{
+	inet_aton(ip, &server.sin_addr.s_addr);
+	}
+
 	server.sin_port = htons(9999);
 
 	length=sizeof(struct sockaddr_in);
@@ -51,7 +59,7 @@ int sendToLog (const char *buf) {
 
 }
 
-void serverReadWrite(int sock) {
+void serverReadWrite(int sock,char *ip) {
 	char buffer[256];
 	bzero(buffer, 256);
 
@@ -63,14 +71,14 @@ void serverReadWrite(int sock) {
     printf("TCP message received: %s\n", buffer);
 
 	//send the message to the log server
-	if (sendToLog(buffer) < 0) error("ERROR sending to log server");
+	if (sendToLog(buffer,ip) < 0) error("ERROR sending to log server");
 
     if (write(sock, "I got your message", 18) < 0) {
         error("ERROR writing to socket");
     }
 }
 
-void serverReadWriteUdp(int sock) {
+void serverReadWriteUdp(int sock, char *ip) {
     char buffer [256];
     bzero(buffer, 256);
 
@@ -84,7 +92,7 @@ void serverReadWriteUdp(int sock) {
     printf("UDP message received: %s\n", buffer);
 
 	//send the message to the log server
-	if (sendToLog(buffer) < 0) error("ERROR sending to log server");
+	if (sendToLog(buffer,ip) < 0) error("ERROR sending to log server");
 
     if (sendto( sock ,"I got your message\n",19,
                0,(struct sockaddr *)&cli_addr, clilen) < 0) {

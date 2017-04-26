@@ -24,7 +24,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <arpa/inet.h>
-
+#include <signal.h>
 #include "client_functions.h"
 
 int main(int argc, char *argv[])

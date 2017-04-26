@@ -19,7 +19,7 @@ void error(const char *msg) {
     exit(1);
 }
 
-int sendToLog (const char *buf,const char *ip) {
+int sendToLog (const char *buf,const char *ip,int port) {
 
 	int sockfd, n;
 	unsigned int length;
@@ -44,8 +44,10 @@ int sendToLog (const char *buf,const char *ip) {
 	{
 	inet_aton(ip, &server.sin_addr.s_addr);
 	}
-
-	server.sin_port = htons(9999);
+	if (port == -1)
+		server.sin_port = htons(port);
+	else
+		server.sin_port = htons(9999);
 
 	length=sizeof(struct sockaddr_in);
 
@@ -59,7 +61,7 @@ int sendToLog (const char *buf,const char *ip) {
 
 }
 
-void serverReadWrite(int sock,char *ip) {
+void serverReadWrite(int sock,char *ip, int port) {
 	char buffer[256];
 	bzero(buffer, 256);
 
@@ -71,14 +73,14 @@ void serverReadWrite(int sock,char *ip) {
     printf("TCP message received: %s\n", buffer);
 
 	//send the message to the log server
-	if (sendToLog(buffer,ip) < 0) error("ERROR sending to log server");
+	if (sendToLog(buffer,ip,port) < 0) error("ERROR sending to log server");
 
     if (write(sock, "I got your message", 18) < 0) {
         error("ERROR writing to socket");
     }
 }
 
-void serverReadWriteUdp(int sock, char *ip) {
+void serverReadWriteUdp(int sock, char *ip, int port) {
     char buffer [256];
     bzero(buffer, 256);
 
@@ -92,7 +94,7 @@ void serverReadWriteUdp(int sock, char *ip) {
     printf("UDP message received: %s\n", buffer);
 
 	//send the message to the log server
-	if (sendToLog(buffer,ip) < 0) error("ERROR sending to log server");
+	if (sendToLog(buffer,ip,port) < 0) error("ERROR sending to log server");
 
     if (sendto( sock ,"I got your message\n",19,
                0,(struct sockaddr *)&cli_addr, clilen) < 0) {

@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
      int portno  = -1;
      int portno2 = -1;
      int portno3 = -1;
+     int logPort = -1;
      char *ip= "default";
      socklen_t clilen;
       char buffer[256];
@@ -45,7 +46,7 @@ int main(int argc, char *argv[])
 		ipFlag = false;
 	}
 	else if(portFlag){
-		//TODO Save this
+		logPort = atoi(argv[i]);
 		portFlag = false;
 	}
 	else if(portno==-1)
@@ -192,7 +193,7 @@ int main(int argc, char *argv[])
 		close(udp_sockfd3);
 		close(tcp_sockfd3);
 		}
-               serverReadWrite(newsockfd,ip);
+               serverReadWrite(newsockfd,ip,logPort);
                exit(0);
            } else {
                close(newsockfd);
@@ -222,7 +223,7 @@ int main(int argc, char *argv[])
 		close(udp_sockfd3);
 		close(tcp_sockfd3);
 		}
-               serverReadWriteUdp(udp_sockfd,ip);
+               serverReadWriteUdp(udp_sockfd,ip,logPort);
                exit(0);
            } else {
                signal(SIGCHLD, SIG_IGN);
@@ -256,7 +257,7 @@ int main(int argc, char *argv[])
 			close(tcp_sockfd3);
 			}
 
-		       serverReadWrite(newsockfd,ip);
+		       serverReadWrite(newsockfd,ip,logPort);
 		       exit(0);
 		   } else {
 		       close(newsockfd);
@@ -283,7 +284,7 @@ int main(int argc, char *argv[])
 			close(udp_sockfd3);
 			close(tcp_sockfd3);
 			}
-		       serverReadWriteUdp(udp_sockfd2,ip);
+		       serverReadWriteUdp(udp_sockfd2,ip,logPort);
 		       exit(0);
 		   } else {
 		       signal(SIGCHLD, SIG_IGN);
@@ -314,7 +315,7 @@ int main(int argc, char *argv[])
 			close(tcp_sockfd2);
 			close(udp_sockfd3);
 			close(tcp_sockfd3);
-		       serverReadWrite(newsockfd,ip);
+		       serverReadWrite(newsockfd,ip,logPort);
 		       exit(0);
 		   } else {
 		       close(newsockfd);
@@ -339,7 +340,7 @@ int main(int argc, char *argv[])
 			close(udp_sockfd2);
 			close(tcp_sockfd2);
 			close(tcp_sockfd3);
-		       serverReadWriteUdp(udp_sockfd3,ip);
+		       serverReadWriteUdp(udp_sockfd3,ip,logPort);
 		       exit(0);
 		   } else {
 		       signal(SIGCHLD, SIG_IGN);

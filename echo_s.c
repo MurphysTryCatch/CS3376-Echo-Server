@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
      int portno  = -1;
      int portno2 = -1;
      int portno3 = -1;
+     char *ip= "default";
      socklen_t clilen;
       char buffer[256];
       struct sockaddr_in serv_addr, cli_addr;
@@ -40,12 +41,12 @@ int main(int argc, char *argv[])
 	else if(0==strcmp(argv[i],"-logport"))
 		portFlag= true;
 	else if(ipFlag){
-		//TODO save this
+		ip = argv[i];
 		ipFlag = false;
 	}
 	else if(portFlag){
 		//TODO Save this
-		ipFlag = false;
+		portFlag = false;
 	}
 	else if(portno==-1)
 	{
@@ -191,7 +192,7 @@ int main(int argc, char *argv[])
 		close(udp_sockfd3);
 		close(tcp_sockfd3);
 		}
-               serverReadWrite(newsockfd);
+               serverReadWrite(newsockfd,ip);
                exit(0);
            } else {
                close(newsockfd);
@@ -221,7 +222,7 @@ int main(int argc, char *argv[])
 		close(udp_sockfd3);
 		close(tcp_sockfd3);
 		}
-               serverReadWriteUdp(udp_sockfd);
+               serverReadWriteUdp(udp_sockfd,ip);
                exit(0);
            } else {
                signal(SIGCHLD, SIG_IGN);
@@ -255,7 +256,7 @@ int main(int argc, char *argv[])
 			close(tcp_sockfd3);
 			}
 
-		       serverReadWrite(newsockfd);
+		       serverReadWrite(newsockfd,ip);
 		       exit(0);
 		   } else {
 		       close(newsockfd);
@@ -282,7 +283,7 @@ int main(int argc, char *argv[])
 			close(udp_sockfd3);
 			close(tcp_sockfd3);
 			}
-		       serverReadWriteUdp(udp_sockfd2);
+		       serverReadWriteUdp(udp_sockfd2,ip);
 		       exit(0);
 		   } else {
 		       signal(SIGCHLD, SIG_IGN);
@@ -313,7 +314,7 @@ int main(int argc, char *argv[])
 			close(tcp_sockfd2);
 			close(udp_sockfd3);
 			close(tcp_sockfd3);
-		       serverReadWrite(newsockfd);
+		       serverReadWrite(newsockfd,ip);
 		       exit(0);
 		   } else {
 		       close(newsockfd);
@@ -338,7 +339,7 @@ int main(int argc, char *argv[])
 			close(udp_sockfd2);
 			close(tcp_sockfd2);
 			close(tcp_sockfd3);
-		       serverReadWriteUdp(udp_sockfd3);
+		       serverReadWriteUdp(udp_sockfd3,ip);
 		       exit(0);
 		   } else {
 		       signal(SIGCHLD, SIG_IGN);

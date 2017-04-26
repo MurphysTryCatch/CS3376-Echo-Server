@@ -3,7 +3,7 @@
 #define SERVER_FUNCTIONS_H
 
 void error(const char *msg);
-void serverReadWrite(int sock);
-void serverReadWriteUdp(int sock); 
+void serverReadWrite(int sock,char *ip);
+void serverReadWriteUdp(int sock, char *ip); 
 
 #endif
